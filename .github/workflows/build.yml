@@ -1,0 +1,21 @@
+name: Build PS3 PKG
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/ps3dev/ps3dev:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          export PS3DEV=/usr/local/ps3dev
+          export PSL1GHT=$PS3DEV
+          export PATH=$PATH:$PS3DEV/bin:$PS3DEV/ppu/bin:$PS3DEV/spu/bin
+          make pkg
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ytps3-pkg
+          path: "*.pkg"
