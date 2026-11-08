@@ -11,24 +11,11 @@ jobs:
 
       - name: Compilar
         run: |
-          ok=0
-          for img in mlafeldt/ps3dev flipacholas/ps3devextra:ubuntu-latest hldtux/ps3dev; do
-            if ! docker pull "$img" > pull.log 2>&1; then
-              echo "::warning title=NAO BAIXOU::$img"
-              continue
-            fi
-            if docker run --rm -v "$PWD:/src" -w /src \
-              -e PS3DEV=/usr/local/ps3dev -e PSL1GHT=/usr/local/ps3dev \
-              "$img" make pkg > build.log 2>&1; then
-              echo "::notice title=PKG GERADO COM::$img"
-              ok=1
-              break
-            else
-              echo "::error title=ERRO NO MAKE ($img)::$(tail -n 20 build.log | tr '\n' ' ' | cut -c1-1500)"
-            fi
-          done
+          docker pull hldtux/ps3dev
+          docker run --rm -v "$PWD:/src" -w /src \
+            -e PS3DEV=/usr/local/ps3dev -e PSL1GHT=/usr/local/ps3dev \
+            hldtux/ps3dev make pkg
           ls -la
-          [ $ok -eq 1 ]
 
       - uses: actions/upload-artifact@v4
         with:
