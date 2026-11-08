@@ -11,11 +11,18 @@ jobs:
 
       - name: Compilar
         run: |
-          docker pull hldtux/ps3dev
+          docker pull hldtux/ps3dev > /dev/null 2>&1
+          set +e
           docker run --rm -v "$PWD:/src" -w /src \
             -e PS3DEV=/usr/local/ps3dev -e PSL1GHT=/usr/local/ps3dev \
-            hldtux/ps3dev make pkg
-          ls -la
+            hldtux/ps3dev make pkg > build.log 2>&1
+          code=$?
+          set -e
+          echo "::notice title=ARQUIVOS::$(ls | tr '\n' ' ')"
+          if [ $code -ne 0 ]; then
+            echo "::error title=ERRO NO MAKE::$(tail -n 25 build.log | tr '\n' ' ' | cut -c1-1800)"
+          fi
+          exit $code
 
       - uses: actions/upload-artifact@v4
         with:
