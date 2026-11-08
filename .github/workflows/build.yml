@@ -5,16 +5,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: ghcr.io/ps3dev/ps3dev:latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build
+
+      - name: Build com Docker
         run: |
-          export PS3DEV=/usr/local/ps3dev
-          export PSL1GHT=$PS3DEV
-          export PATH=$PATH:$PS3DEV/bin:$PS3DEV/ppu/bin:$PS3DEV/spu/bin
-          make pkg
+          docker pull mlafeldt/ps3dev
+          docker run --rm -v "$PWD:/src" mlafeldt/ps3dev make pkg
+
+      - name: Listar arquivos gerados
+        run: ls -la
+
       - uses: actions/upload-artifact@v4
         with:
           name: ytps3-pkg
