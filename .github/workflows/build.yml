@@ -12,10 +12,14 @@ jobs:
       - name: Build com Docker
         run: |
           docker pull mlafeldt/ps3dev
-          docker run --rm -v "$PWD:/src" mlafeldt/ps3dev make pkg
-
-      - name: Listar arquivos gerados
-        run: ls -la
+          set +e
+          docker run --rm -v "$PWD:/src" mlafeldt/ps3dev make pkg > build.log 2>&1
+          code=$?
+          set -e
+          if [ $code -ne 0 ]; then
+            echo "::error title=ERRO NO MAKE::$(tail -n 25 build.log | tr '\n' ' ' | cut -c1-1800)"
+          fi
+          exit $code
 
       - uses: actions/upload-artifact@v4
         with:
