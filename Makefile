@@ -13,7 +13,8 @@ INCLUDES := include
 TITLE    := YT PS3
 APPID    := YTPS30001
 CONTENTID := UP0001-$(APPID)_00-0000000000000000
-SFOXML   := sfo.xml
+ICON0    := $(PSL1GHT)/build/PS3_GAME/ICON0.PNG
+SFOXML   := $(PSL1GHT)/build/sfo.xml
 
 CFLAGS   := -O2 -Wall -mcpu=cell $(MACHDEP) $(INCLUDE)
 LDFLAGS  := $(MACHDEP) -Wl,-Map,$(notdir $@).map
