@@ -13,8 +13,7 @@ INCLUDES := include
 TITLE    := YT PS3
 APPID    := YTPS30001
 CONTENTID := UP0001-$(APPID)_00-0000000000000000
-ICON0    := $(PSL1GHT)/build/PS3_GAME/ICON0.PNG
-SFOXML   := $(PSL1GHT)/build/sfo.xml
+SFOXML   := sfo.xml
 
 CFLAGS   := -O2 -Wall -mcpu=cell $(MACHDEP) $(INCLUDE)
 LDFLAGS  := $(MACHDEP) -Wl,-Map,$(notdir $@).map
@@ -42,6 +41,6 @@ clean:
 pkg: $(BUILD)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile $(OUTPUT).pkg
 else
-$(OUTPUT).self: $(OUTPUT).elf
+$(OUTPUT).self: $(OFILES)
 $(OUTPUT).elf: $(OFILES)
 endif
