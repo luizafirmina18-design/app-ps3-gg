@@ -5,6 +5,7 @@ endif
 
 include $(PSL1GHT)/ppu_rules
 LD := $(CC)
+
 TARGET   := ytps3
 BUILD    := build
 SOURCES  := source
@@ -16,7 +17,7 @@ SFOXML   := sfo.xml
 
 CFLAGS   := -O2 -Wall -mcpu=cell $(MACHDEP) $(INCLUDE)
 LDFLAGS  := $(MACHDEP) -Wl,-Map,$(notdir $@).map
-LIBS     := -lnet -lnetctl -lsysutil -lio -lrt -llv2
+LIBS     := -lnet -lnetctl -lsysmodule -lsysutil -lio -lrt -llv2
 
 ifneq ($(BUILD),$(notdir $(CURDIR)))
 export OUTPUT   := $(CURDIR)/$(TARGET)
