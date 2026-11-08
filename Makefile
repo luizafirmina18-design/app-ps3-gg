@@ -4,7 +4,7 @@ $(error "Defina PSL1GHT")
 endif
 
 include $(PSL1GHT)/ppu_rules
-
+LD := $(CC)
 TARGET   := ytps3
 BUILD    := build
 SOURCES  := source
